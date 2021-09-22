@@ -2,6 +2,7 @@ import 'package:bitrixmobile_client/bitrixmobile_client.dart';
 import 'package:bitrixmobile_client/src/auth/auth_client.dart';
 import 'package:bitrixmobile_client/src/http/http_client.dart';
 import 'package:bitrixmobile_client/src/http/http_client_impl.dart';
+import 'package:bitrixmobile_client/src/user/user_client.dart';
 
 import 'chat/chat_client.dart';
 
@@ -13,6 +14,7 @@ class BitrixClient {
   // features client
   late final AuthClient authClient;
   late final ChatClient chatClient;
+  late final UserClient userClient;
 
   BitrixClient(String baseUrl, this.apiConfigurations,
       {Map<String, String> headers = const {},
@@ -32,5 +34,6 @@ class BitrixClient {
 
     authClient = AuthClient(this);
     chatClient = ChatClientImpl(this);
+    userClient = UserClientImpl(this);
   }
 }

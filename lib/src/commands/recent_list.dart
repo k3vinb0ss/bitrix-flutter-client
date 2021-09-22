@@ -1,10 +1,4 @@
-abstract class ApiCommand {
-  final String apiName;
-
-  const ApiCommand(this.apiName);
-
-  String get getQuery;
-}
+import 'api_command.dart';
 
 class RecentListCommand extends ApiCommand {
   final bool skipOneOneDialog;
@@ -19,11 +13,11 @@ class RecentListCommand extends ApiCommand {
     if (skipOneOneDialog) {
       params.add('SKIP_DIALOG=Y');
     }
-    
+
     if (onlyOpenlines) {
       params.add('ONLY_OPENLINES=Y');
     }
-    
+
     return '$apiName${params.isNotEmpty ? '?' : ''}${params.join('&')}';
   }
 }

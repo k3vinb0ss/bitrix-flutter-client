@@ -1,6 +1,8 @@
-import '../common/parse_functions.dart';
-import '../api_command.dart';
+import 'package:flutter/foundation.dart';
+
 import '../client.dart';
+import '../commands/recent_list.dart';
+import '../common/parse_functions.dart';
 import '../common/result.dart';
 import '../http/http_client.dart';
 import '../models/chat/chat_dialog.dart';
@@ -19,15 +21,16 @@ class ChatClientImpl extends ChatClient {
         httpClient = _client.httpClient;
 
   @override
-  Future<Result<List<ChatDialog>>> getRecentList(RecentListCommand command) async {
+  Future<Result<List<ChatDialog>>> getRecentList(
+      RecentListCommand command) async {
     final req = BasicRequest('$baseUrl/${command.getQuery}');
     final response = await httpClient.get(req);
 
     if (response.statusCode == 200) {
-      final recentList = parseRecentList(response.body);
+      final recentList = await compute(parseRecentList, response.body);
       return Result.success(recentList);
     } else {
-      return Result.error(400, 'Something went wrong');
+      return Result.error(response.statusCode, 'Something went wrong');
     }
   }
 }
