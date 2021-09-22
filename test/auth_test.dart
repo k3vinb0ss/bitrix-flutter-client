@@ -4,23 +4,14 @@ import 'package:bitrixmobile_client/bitrixmobile_client.dart';
 
 void main() {
   late final BitrixClient bitrixClient;
+
   setUp(() {
-    bitrixClient = BitrixClient('http://demo.younetsi.com', ApiConfigurations(
+    bitrixClient = BitrixClient('https://demo.younetsi.com/rest/66/vtmrbpt43guty853', ApiConfigurations(
         clientId: 'local.61486902ec2ef4.46048474',
         clientSecret: 'RE7pqLSqlo40nuPnAjZP4213kV6wi0T1kxWPNmviIGqR93EW5O'
     ));
   });
 
-  test('test mobile checkout', () async {
-    final response = await bitrixClient.authManagement.mobileCheckout(debugMobileConfigurations, 'sontt', 'ynsi@123');
-    print(response.body);
-  });
-
-  test('test login', () async {
-    final str = {'a': 'va', 'b': 'vb'}.entries.map((e) => e.toString()).join('&');
-    print(str);
-    // print(str.substring(0, str.length - 2));
-  });
 
   test('parse request code from url', () async {
     final url = 'http://localhost:7000/api/bitrixmobile?code=dc6b49610057522300552a73000000420000032fd68551450eff30ebf9705ea0453f3a'
@@ -32,10 +23,15 @@ void main() {
     final matches = regex.allMatches(url);
 
     expect(matches.length, greaterThan(0));
-    print(matches.elementAt(0).group(2));
+    expect(matches.elementAt(0).group(2), isNotEmpty);
   });
 
   test('refresh token ', () async {
-    await bitrixClient.authManagement.refreshToken();
+    final response = await bitrixClient.authClient.refreshToken(
+      'db4071610057522300552a73000000420000030cc65f38ae37c01a7f627376664f4b15',
+        'BITRIX_SM_TIME_ZONE=-420; PHPSESSID=VyfBFOSQ8vWgck9r6gsGBU0Vb1bvRTb4; BITRIX_SM_SALE_UID=0; BITRIX_SM_LOGIN=sontt; BITRIX_SM_SOUND_LOGIN_PLAYED=Y'
+    );
+
+    expect(response.statusCode, 200);
   });
 }

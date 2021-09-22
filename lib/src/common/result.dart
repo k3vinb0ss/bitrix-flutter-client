@@ -1,20 +1,20 @@
-enum ResponseStatus { success, error }
+enum ResultStatus { success, error }
 
-class ResponseResult<T> {
-  ResponseStatus status;
+class Result<T> {
+  ResultStatus status;
   T? data;
   int errorCode;
   String? message;
 
-  ResponseResult(
+  Result(
       {required this.status, this.data, this.message, this.errorCode = -1});
 
-  factory ResponseResult.success(T data) {
-    return ResponseResult(status: ResponseStatus.success, data: data);
+  factory Result.success(T data) {
+    return Result(status: ResultStatus.success, data: data);
   }
 
-  factory ResponseResult.error(int errorCode, String? message) {
-    return ResponseResult(
-        status: ResponseStatus.error, message: message, errorCode: errorCode);
+  factory Result.error(int errorCode, String? message) {
+    return Result(
+        status: ResultStatus.error, message: message, errorCode: errorCode);
   }
 }

@@ -5,15 +5,15 @@ import 'package:bitrixmobile_client/src/http/http_client.dart';
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart';
 
-import 'utils/common_utils.dart';
+import '../utils/common_utils.dart';
 
-class AuthManagement {
+class AuthClient {
   final BitrixClient _bitrixClient;
   final String baseUrl;
 
-  AuthManagement(this._bitrixClient) : baseUrl = _bitrixClient.baseUrl;
+  AuthClient(this._bitrixClient) : baseUrl = _bitrixClient.baseUrl;
 
-  Future mobileCheckout(MobileConfigurations configurations, String username,
+  Future<Response> mobileCheckout(MobileConfigurations configurations, String username,
       String password) async {
     final signature = sha1.convert(
         utf8.encode(configurations.signatureKey + username + password));
@@ -30,7 +30,7 @@ class AuthManagement {
     return response;
   }
 
-  Future login(String requestCode, Map<String, String> cookies) async {
+  Future<Response> login(String requestCode, Map<String, String> cookies) async {
     final requestPermissions = 'im%2Cdisk%2Clog';
     final url = _bitrixClient.baseUrl +
         '/oauth/token/?client_id=${_bitrixClient.apiConfigurations.clientId}'
@@ -43,22 +43,20 @@ class AuthManagement {
 
     final response = await _bitrixClient.httpClient
         .get(BasicRequest(url, headers: {'Cookie': stringifyCookies(cookies)}));
+    print('[BitrixMobile]: login response: ${response.body}');
+    return response;
   }
 
-  Future refreshToken() async {
-    final refreshToken =
-        'db4071610057522300552a73000000420000030cc65f38ae37c01a7f627376664f4b15';
-    final strCookie =
-        'BITRIX_SM_TIME_ZONE=-420; PHPSESSID=VyfBFOSQ8vWgck9r6gsGBU0Vb1bvRTb4; BITRIX_SM_SALE_UID=0; BITRIX_SM_LOGIN=sontt; BITRIX_SM_SOUND_LOGIN_PLAYED=Y';
-
+  Future<Response> refreshToken(String refreshToken, String cookieStr) async {
     final url =
         '$baseUrl/oauth/token/?client_id=${_bitrixClient.apiConfigurations.clientId}'
         '&grant_type=refresh_token'
         '&client_secret=${_bitrixClient.apiConfigurations.clientSecret}'
         '&refresh_token=$refreshToken';
 
-    final response = await _bitrixClient.httpClient.get(BasicRequest(url, headers: {'Cookie': strCookie}));
+    final response = await _bitrixClient.httpClient.get(BasicRequest(url, headers: {'Cookie': cookieStr}));
     print('[BitrixMobile]: refreshToken response: ${response.body}');
+    return response;
   }
 }
 
