@@ -11,6 +11,7 @@ import '../models/user/user.dart';
 
 abstract class UserClient {
   Future<Result<List<User>>> getAllUsers(UserGetCommand command);
+
   Future<Result<List<Department>>> getAllDepartments(DepartmentGet command);
 }
 
@@ -22,28 +23,28 @@ class UserClientImpl extends UserClient {
 
   @override
   Future<Result<List<User>>> getAllUsers(UserGetCommand command) async {
-    final response = await httpClient.get(
-        BasicRequest('${_bitrixClient.baseUrl}/${command.getQuery}'));
+    final response = await httpClient
+        .get(BasicRequest('${_bitrixClient.baseUrl}/${command.getQuery}'));
 
     if (response.statusCode == 200) {
       final users = await compute(parseAllUsers, response.body);
       return Result.success(users);
     } else {
-      return Result.error(response.statusCode, 'Something went wrong');
+      return Result.error(response.statusCode, message: 'Something went wrong');
     }
   }
 
-
   @override
-  Future<Result<List<Department>>> getAllDepartments(DepartmentGet command) async {
-    final response = await httpClient.get(
-        BasicRequest('${_bitrixClient.baseUrl}/${command.getQuery}'));
+  Future<Result<List<Department>>> getAllDepartments(
+      DepartmentGet command) async {
+    final response = await httpClient
+        .get(BasicRequest('${_bitrixClient.baseUrl}/${command.getQuery}'));
 
     if (response.statusCode == 200) {
       final departments = await compute(parseAllDepartments, response.body);
       return Result.success(departments);
     } else {
-      return Result.error(response.statusCode, 'Something went wrong');
+      return Result.error(response.statusCode, message: 'Something went wrong');
     }
   }
 }

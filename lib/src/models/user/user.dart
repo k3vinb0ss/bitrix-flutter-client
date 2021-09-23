@@ -2,7 +2,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../extensions/parser.dart';
+import '../../utils/parser.dart';
 
 part 'user.g.dart';
 

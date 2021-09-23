@@ -22,7 +22,7 @@ class HttpClientImpl extends HttpClient {
       // creating query params
       final queryString =
           req.params.entries.map((e) => '${e.key}=${e.value}').join('&');
-      url = '$url?$queryString';
+      url = '$url${req.params.isNotEmpty ? '?' : ''}$queryString';
     }
 
     // merge cookies

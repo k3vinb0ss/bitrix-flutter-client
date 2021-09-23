@@ -23,13 +23,13 @@ extension SafeParsingExtension on Map<String, dynamic>? {
   int safeInt(String key, {int defaultValue = 0}) {
     final value = this?[key];
 
-    if (value == null)
+    if (value == null) {
       return defaultValue;
-    else if (value is String) {
+    } else if (value is String) {
       try {
         final intValue = int.parse(value);
         return intValue;
-      } on Exception catch (e) {
+      } on Exception catch (_) {
         return defaultValue;
       }
     }
@@ -48,7 +48,7 @@ int fromStringJsonToInt(dynamic json, {int defaultValue = 0}) {
   if (json is String) {
     try {
       return int.parse(json);
-    } on Exception catch (e) {
+    } on Exception catch (_) {
       return defaultValue;
     }
   }

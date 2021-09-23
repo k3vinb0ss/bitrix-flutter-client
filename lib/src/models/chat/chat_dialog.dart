@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../extensions/parser.dart';
+import '../../utils/parser.dart';
 import 'chat_avatar.dart';
 import 'chat_dialog_group.dart';
 import 'chat_dialog_user.dart';
