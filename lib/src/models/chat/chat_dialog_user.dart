@@ -5,8 +5,8 @@ part 'chat_dialog_user.g.dart';
 @JsonSerializable()
 class ChatDialogUser {
   final int id;
-  final bool active;
-  final String name;
+  final bool? active;
+  final String? name;
   final String? color;
   final String? avatar;
   @JsonKey(name: 'first_name')
@@ -18,14 +18,14 @@ class ChatDialogUser {
   final List<int>? departments;
   final String? gender;
   final String? birthday;
-  final String status;
+  final String? status;
   @JsonKey(name: 'last_activity_date')
-  final DateTime lastActiveDate;
+  final DateTime? lastActiveDate;
 
   ChatDialogUser(
       {required this.id,
-      required this.active,
-      required this.name,
+      this.active,
+      this.name,
       this.color,
       this.avatar,
       this.firstName,
@@ -34,8 +34,8 @@ class ChatDialogUser {
       this.departments,
       this.gender,
       this.birthday,
-      required this.status,
-      required this.lastActiveDate});
+      this.status,
+      this.lastActiveDate});
 
   factory ChatDialogUser.fromJson(Map<String, dynamic> json) =>
       _$ChatDialogUserFromJson(json);

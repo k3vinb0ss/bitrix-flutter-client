@@ -8,4 +8,7 @@ class DepartmentGet extends ApiCommand {
   @override
   String get getQuery => apiName;
 
+  @override
+  Map<String, dynamic> get getParams => {};
+
 }

@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:bitrixmobile_client/src/commands/create_chat.dart';
-import 'package:bitrixmobile_client/src/common/result_codes.dart';
 import 'package:flutter/foundation.dart';
 
 import '../client.dart';
+import '../commands/create_chat.dart';
 import '../commands/recent_list.dart';
 import '../common/parse_functions.dart';
 import '../common/result.dart';
+import '../common/result_codes.dart';
 import '../http/http_client.dart';
 import '../models/chat/chat_dialog.dart';
 

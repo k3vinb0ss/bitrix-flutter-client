@@ -12,8 +12,8 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       email: json['EMAIL'] as String,
       lastLogin:
           const BitrixTimeConverter().fromJson(json['LAST_LOGIN'] as String?),
-      dateRegister:
-          const BitrixTimeConverter().fromJson(json['DATE_REGISTER'] as String?),
+      dateRegister: const BitrixTimeConverter()
+          .fromJson(json['DATE_REGISTER'] as String?),
       isOnline: fromBitrixBool(json['isOnline']),
       name: json['NAME'] as String?,
       lastName: json['LAST_NAME'] as String?,
@@ -40,14 +40,16 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'ACTIVE': instance.active,
       'EMAIL': instance.email,
       'LAST_LOGIN': const BitrixTimeConverter().toJson(instance.lastLogin),
-      'DATE_REGISTER': const BitrixTimeConverter().toJson(instance.dateRegister),
+      'DATE_REGISTER':
+          const BitrixTimeConverter().toJson(instance.dateRegister),
       'isOnline': toBitrixBool(instance.isOnline),
       'NAME': instance.name,
       'LAST_NAME': instance.lastName,
       'SECOND_NAME': instance.secondName,
       'PERSONAL_GENDER': instance.gender,
       'PERSONAL_PROFESSION': instance.profession,
-      'PERSONAL_BIRTHDAY': const BitrixTimeConverter().toJson(instance.birthDay),
+      'PERSONAL_BIRTHDAY':
+          const BitrixTimeConverter().toJson(instance.birthDay),
       'PERSONAL_PHOTO': instance.photo,
       'PERSONAL_PHONE': instance.phone,
       'PERSONAL_MOBILE': instance.mobile,

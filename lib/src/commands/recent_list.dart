@@ -9,15 +9,22 @@ class RecentListCommand extends ApiCommand {
 
   @override
   String get getQuery {
-    var params = <String>[];
+    final params = getParams;
+    return '$apiName${params.isNotEmpty ? '?' : ''}'
+        '${params.entries.map((e) => '${e.key}:${e.value}').join('&')}';
+  }
+
+  @override
+  Map<String, dynamic> get getParams {
+    var params = <String, dynamic>{};
     if (skipOneOneDialog) {
-      params.add('SKIP_DIALOG=Y');
+      params['SKIP_DIALOG'] = 'Y';
     }
 
     if (onlyOpenlines) {
-      params.add('ONLY_OPENLINES=Y');
+      params['ONLY_OPENLINES'] = 'Y';
     }
 
-    return '$apiName${params.isNotEmpty ? '?' : ''}${params.join('&')}';
+    return params;
   }
 }
