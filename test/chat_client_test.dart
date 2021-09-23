@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bitrixmobile_client/bitrixmobile_client.dart';
 import 'package:bitrixmobile_client/src/commands/chat_dialog_get.dart';
 import 'package:bitrixmobile_client/src/commands/create_chat.dart';
+import 'package:bitrixmobile_client/src/commands/dialog_users_get.dart';
 import 'package:bitrixmobile_client/src/commands/recent_list.dart';
 import 'package:bitrixmobile_client/src/common/result.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -73,5 +74,14 @@ void main() {
 
     print(result);
     expect(result.status, ResultStatus.success);
+  });
+  
+  test('get chat participants', () async {
+    final command = DialogUsersGetCommand('chat559');
+    final result = await bitrixClient.chatClient.getChatParticipants(command);
+
+    print(result);
+    expect(result.status, ResultStatus.success);
+    expect(result.data, isNotEmpty);
   });
 }

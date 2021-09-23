@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import '../models/chat/chat_dialog.dart';
 import '../models/department/department.dart';
+import '../models/user/chat_user.dart';
 import '../models/user/user.dart';
 
 List<ChatDialog> parseRecentList(String body) {
@@ -41,6 +42,20 @@ List<Department> parseAllDepartments(String body) {
     final items = result as List;
 
     return List<Department>.from(items.map((e) => Department.fromJson(e)));
+  }
+
+  return [];
+}
+
+List<ChatUser> parseChatParticipants(String body) {
+  final data = jsonDecode(body) as Map<String, dynamic>;
+
+  final result = data['result'];
+
+  if (result != null) {
+    final items = result as List;
+
+    return List<ChatUser>.from(items.map((e) => ChatUser.fromJson(e)));
   }
 
   return [];
