@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bitrixmobile_client/src/commands/chat_dialog_get.dart';
 import 'package:flutter/foundation.dart';
 
 import '../client.dart';
@@ -10,12 +11,15 @@ import '../common/result.dart';
 import '../common/result_codes.dart';
 import '../http/http_client.dart';
 import '../models/chat/chat_dialog.dart';
+import '../models/chat/chat_dialog_info.dart';
 
 abstract class ChatClient {
   Future<Result<List<ChatDialog>>> getRecentList(RecentListCommand command);
 
   /// Return create chat id
   Future<Result<int>> createChat(CreateChatCommand command);
+
+  Future<Result<ChatDialogInfo>> getDialogInfo(DialogGetCommand command);
 }
 
 class ChatClientImpl extends ChatClient {
@@ -37,14 +41,14 @@ class ChatClientImpl extends ChatClient {
       final recentList = await compute(parseRecentList, response.body);
       return Result.success(recentList);
     } else {
-      return Result.error(response.statusCode, message: 'Something went wrong');
+      return Result.error(response.statusCode, message: response.body);
     }
   }
 
   @override
   Future<Result<int>> createChat(CreateChatCommand command) async {
     if (command.userIds.isEmpty) {
-      return Result.error(ERROR_EMPTY_USERS);
+      return Result.error(ERR_WRONG_INPUT, message: 'User ids empty');
     }
 
     final req =
@@ -55,7 +59,24 @@ class ChatClientImpl extends ChatClient {
       final data = jsonDecode(response.body) as Map<String, dynamic>;
       return Result.success(data['result'] as int);
     } else {
-      return Result.error(response.statusCode);
+      return Result.error(response.statusCode, message: response.body);
+    }
+  }
+
+  @override
+  Future<Result<ChatDialogInfo>> getDialogInfo(DialogGetCommand command) async {
+    if (command.chatId.isEmpty) {
+      return Result.error(ERR_WRONG_INPUT, message: 'chat id empty');
+    }
+
+    final req = BasicRequest('$baseUrl/${command.getQuery}');
+    final response = await httpClient.get(req);
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      return Result.success(ChatDialogInfo.fromJson(data['result']));
+    } else {
+      return Result.error(response.statusCode, message: response.body);
     }
   }
 }

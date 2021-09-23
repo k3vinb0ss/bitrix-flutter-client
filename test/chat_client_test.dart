@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bitrixmobile_client/bitrixmobile_client.dart';
+import 'package:bitrixmobile_client/src/commands/chat_dialog_get.dart';
 import 'package:bitrixmobile_client/src/commands/create_chat.dart';
 import 'package:bitrixmobile_client/src/commands/recent_list.dart';
 import 'package:bitrixmobile_client/src/common/result.dart';
@@ -61,6 +62,14 @@ void main() {
         base64ImageAvatar: base64Encode(data),
         greetingMessage: 'Adongseryo');
     final result = await bitrixClient.chatClient.createChat(req);
+
+    print(result);
+    expect(result.status, ResultStatus.success);
+  });
+
+  test('get chat info', () async {
+    final command = DialogGetCommand('chat559');
+    final result = await bitrixClient.chatClient.getDialogInfo(command);
 
     print(result);
     expect(result.status, ResultStatus.success);
