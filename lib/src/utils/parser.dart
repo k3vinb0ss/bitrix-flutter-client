@@ -1,5 +1,6 @@
-import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../constants.dart';
 
 extension SafeParsingExtension on Map<String, dynamic>? {
   String safeString(String key, {String defaultValue = ''}) {
@@ -84,8 +85,7 @@ class BitrixTimeConverter implements JsonConverter<DateTime?, String?> {
   @override
   String? toJson(DateTime? object) {
     if (object != null) {
-      final df = DateFormat('yyyy-MM-ddTHH:mm:ssZ');
-      df.format(object);
+      bitrixDateFormat.format(object);
     }
   }
 }

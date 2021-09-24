@@ -5,6 +5,7 @@ import 'package:bitrixmobile_client/bitrixmobile_client.dart';
 import 'package:bitrixmobile_client/src/commands/chat_dialog_get.dart';
 import 'package:bitrixmobile_client/src/commands/create_chat.dart';
 import 'package:bitrixmobile_client/src/commands/dialog_users_get.dart';
+import 'package:bitrixmobile_client/src/commands/get_messages.dart';
 import 'package:bitrixmobile_client/src/commands/recent_list.dart';
 import 'package:bitrixmobile_client/src/common/result.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,7 +43,7 @@ void main() {
     print(result);
   });
 
-  test('create chat with title', () async {
+  test('test create chat with title', () async {
     final req = CreateChatCommand(
         userIds: [78],
         title: 'ngon bo',
@@ -53,7 +54,7 @@ void main() {
     print(result);
   });
 
-  test('create chat with avatar', () async {
+  test('test create chat with avatar', () async {
     final icon = File('test/test_resource/compres_check_icon.png');
     final data = icon.readAsBytesSync();
 
@@ -68,7 +69,7 @@ void main() {
     expect(result.status, ResultStatus.success);
   });
 
-  test('get chat info', () async {
+  test('test get chat info', () async {
     final command = DialogGetCommand('chat559');
     final result = await bitrixClient.chatClient.getDialogInfo(command);
 
@@ -76,12 +77,21 @@ void main() {
     expect(result.status, ResultStatus.success);
   });
   
-  test('get chat participants', () async {
+  test('test get chat participants', () async {
     final command = DialogUsersGetCommand('chat559');
     final result = await bitrixClient.chatClient.getChatParticipants(command);
 
     print(result);
     expect(result.status, ResultStatus.success);
     expect(result.data, isNotEmpty);
+  });
+
+  test('test get chat messages', () async {
+    final command = GetMessagesCommand('chat559');
+    final result = await bitrixClient.chatClient.getChatMessages(command);
+
+    print(result.data![3]);
+    print(result.data![3].likes);
+    expect(result.status, ResultStatus.success);
   });
 }
