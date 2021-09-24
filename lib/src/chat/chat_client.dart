@@ -1,13 +1,14 @@
 import 'dart:convert';
 
-import 'package:bitrixmobile_client/src/commands/get_messages.dart';
 import 'package:flutter/foundation.dart';
 
 import '../client.dart';
 import '../commands/chat_dialog_get.dart';
 import '../commands/create_chat.dart';
 import '../commands/dialog_users_get.dart';
+import '../commands/get_messages.dart';
 import '../commands/recent_list.dart';
+import '../commands/send_message.dart';
 import '../common/parse_functions.dart';
 import '../common/result.dart';
 import '../common/result_codes.dart';
@@ -28,6 +29,8 @@ abstract class ChatClient {
   Future<Result<List<ChatUser>>> getChatParticipants(DialogUsersGetCommand command);
 
   Future<Result<List<BitrixMessage>>> getChatMessages(GetMessagesCommand command);
+
+  Future<Result<int>> sendMessge(SendMessageCommand command);
 }
 
 class ChatClientImpl extends ChatClient {
@@ -117,6 +120,23 @@ class ChatClientImpl extends ChatClient {
     if (response.statusCode == 200) {
       final messages = await compute(parseChatMessages, response.body);
       return Result.success(messages);
+    } else {
+      return Result.error(response.statusCode, message: response.body);
+    }
+  }
+
+  @override
+  Future<Result<int>> sendMessge(SendMessageCommand command) async {
+    if (command.message.isEmpty) {
+      return Result.error(ERR_WRONG_INPUT, message: 'message can not be empty');
+    }
+
+    final req = BasicRequest('$baseUrl/${command.getQuery}');
+    final response = await httpClient.get(req);
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return Result.success(data['result'] as int);
     } else {
       return Result.error(response.statusCode, message: response.body);
     }

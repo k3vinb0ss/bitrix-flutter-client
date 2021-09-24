@@ -35,7 +35,7 @@ class HttpClientImpl extends HttpClient {
       ...{'Cookie': stringifyCookies(mergedCookies)}
     };
 
-    return _httpClient.get(Uri.parse(url), headers: mergedHeaders);
+    return _httpClient.get(Uri.parse(Uri.encodeFull(url)), headers: mergedHeaders);
   }
 
   @override

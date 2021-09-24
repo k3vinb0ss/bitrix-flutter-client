@@ -7,6 +7,7 @@ import 'package:bitrixmobile_client/src/commands/create_chat.dart';
 import 'package:bitrixmobile_client/src/commands/dialog_users_get.dart';
 import 'package:bitrixmobile_client/src/commands/get_messages.dart';
 import 'package:bitrixmobile_client/src/commands/recent_list.dart';
+import 'package:bitrixmobile_client/src/commands/send_message.dart';
 import 'package:bitrixmobile_client/src/common/result.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -92,6 +93,14 @@ void main() {
 
     print(result.data![3]);
     print(result.data![3].likes);
+    expect(result.status, ResultStatus.success);
+  });
+
+  test('send message groupchat', () async {
+    final command = SendMessageCommand(chatId: 559, message: 'Send test message');
+    final result = await bitrixClient.chatClient.sendMessge(command);
+    
+    print(result);
     expect(result.status, ResultStatus.success);
   });
 }
