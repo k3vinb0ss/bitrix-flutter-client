@@ -14,6 +14,7 @@ dependencies:
   crypto: ^3.0.1
   json_annotation: ^4.1.0
   intl: ^0.17.0
+  freezed_annotation: ^0.14.3
 
 
 dev_dependencies:
@@ -22,6 +23,7 @@ dev_dependencies:
   flutter_lints: ^1.0.0
   build_runner: ^2.1.2
   json_serializable: ^5.0.2
+  freezed: ^0.14.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

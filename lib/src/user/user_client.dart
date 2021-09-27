@@ -1,7 +1,7 @@
-import 'package:bitrixmobile_client/src/commands/department_get.dart';
 import 'package:flutter/foundation.dart';
 
 import '../client.dart';
+import '../commands/department_get.dart';
 import '../commands/user_get.dart';
 import '../common/parse_functions.dart';
 import '../common/result.dart';

@@ -1,5 +1,6 @@
-import 'package:bitrixmobile_client/src/utils/parser.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../../utils/parser.dart';
 
 part 'readed_item.g.dart';
 

@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:bitrixmobile_client/src/utils/common_utils.dart';
 import 'package:http/http.dart';
 
+import '../utils/common_utils.dart';
 import 'http_client.dart';
 
 class HttpClientImpl extends HttpClient {
   late final Client _httpClient;
-  late final Map<String, String> defaultHeaders;
-  late final Map<String, String> cookies;
+  late Map<String, String> defaultHeaders;
+  late Map<String, String> defaultCookies;
 
-  HttpClientImpl({this.defaultHeaders = const {}, this.cookies = const {}}) {
+  HttpClientImpl({this.defaultHeaders = const {}, this.defaultCookies = const {}}) {
     _httpClient = Client();
   }
 
@@ -26,7 +26,7 @@ class HttpClientImpl extends HttpClient {
     }
 
     // merge cookies
-    var mergedCookies = {...cookies, ...req.cookies};
+    var mergedCookies = {...defaultCookies, ...req.cookies};
 
     // merge headers
     var mergedHeaders = {
@@ -35,13 +35,14 @@ class HttpClientImpl extends HttpClient {
       ...{'Cookie': stringifyCookies(mergedCookies)}
     };
 
-    return _httpClient.get(Uri.parse(Uri.encodeFull(url)), headers: mergedHeaders);
+    return _httpClient.get(Uri.parse(Uri.encodeFull(url)),
+        headers: mergedHeaders);
   }
 
   @override
   Future<Response> post(BasicRequest req) {
     // merge cookies
-    var mergedCookies = {...cookies, ...req.cookies};
+    var mergedCookies = {...defaultCookies, ...req.cookies};
 
     // merge headers
     var mergedHeaders = {
@@ -54,5 +55,34 @@ class HttpClientImpl extends HttpClient {
         headers: mergedHeaders,
         body: (req is PostRequest) ? req.body : {},
         encoding: Encoding.getByName("utf-8"));
+  }
+
+  @override
+  void addCookies(Map<String, String> mapCookies) {
+    defaultCookies = {...defaultCookies, ...mapCookies};
+  }
+
+  @override
+  void addHeaders(Map<String, String> headers) {
+    defaultHeaders = {...defaultHeaders, ...headers};
+  }
+
+  @override
+  Future<StreamedResponse> send(BasicRequest req) {
+    final httpReq = Request(req.method.name, Uri.parse(req.url));
+    httpReq.followRedirects = req.followRedirect;
+
+    // merge cookies
+    var mergedCookies = {...defaultCookies, ...req.cookies};
+
+    // merge headers
+    var mergedHeaders = {
+      ...defaultHeaders,
+      ...req.headers,
+      ...{'Cookie': stringifyCookies(mergedCookies)}
+    };
+
+    httpReq.headers.addAll(mergedHeaders);
+    return _httpClient.send(httpReq);
   }
 }

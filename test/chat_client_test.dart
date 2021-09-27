@@ -11,6 +11,8 @@ import 'package:bitrixmobile_client/src/commands/send_message.dart';
 import 'package:bitrixmobile_client/src/common/result.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'test_model/test_object.dart';
+
 void main() {
   BitrixClient bitrixClient = BitrixClient(
       'https://demo.younetsi.com/rest/66/vtmrbpt43guty853',
@@ -102,5 +104,18 @@ void main() {
     
     print(result);
     expect(result.status, ResultStatus.success);
+  });
+
+  test('test parse freezed object', () async {
+    var item = TestObject.fromJson({
+      'id': 1,
+      'file_name': 'newfile',
+      'file_ext': 'txt'
+    });
+
+
+    print(item.toJson());
+    print(item.toString());
+    print(item.runtimeType.toString());
   });
 }

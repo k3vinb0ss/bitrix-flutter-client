@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-import 'package:bitrixmobile_client/src/models/message/bitrix_message.dart';
-
 import '../models/chat/chat_dialog.dart';
 import '../models/department/department.dart';
 import '../models/disk/bitrix_file.dart';
+import '../models/message/bitrix_message.dart';
 import '../models/user/chat_user.dart';
 import '../models/user/user.dart';
 

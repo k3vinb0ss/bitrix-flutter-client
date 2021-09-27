@@ -1,10 +1,9 @@
-import 'package:bitrixmobile_client/bitrixmobile_client.dart';
-import 'package:bitrixmobile_client/src/auth/auth_client.dart';
-import 'package:bitrixmobile_client/src/http/http_client.dart';
-import 'package:bitrixmobile_client/src/http/http_client_impl.dart';
-import 'package:bitrixmobile_client/src/user/user_client.dart';
-
+import '../bitrixmobile_client.dart';
+import 'auth/auth_client.dart';
 import 'chat/chat_client.dart';
+import 'http/http_client.dart';
+import 'http/http_client_impl.dart';
+import 'user/user_client.dart';
 
 class BitrixClient {
   late final String baseUrl;
@@ -19,7 +18,7 @@ class BitrixClient {
   BitrixClient(String baseUrl, this.apiConfigurations,
       {Map<String, String> headers = const {},
       Map<String, String> cookies = const {}})
-      : httpClient = HttpClientImpl(defaultHeaders: headers, cookies: cookies) {
+      : httpClient = HttpClientImpl(defaultHeaders: headers, defaultCookies: cookies) {
 
     if (!baseUrl.endsWith('/')) {
       this.baseUrl = baseUrl;
