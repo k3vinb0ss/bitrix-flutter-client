@@ -53,7 +53,7 @@ class HttpClientImpl extends HttpClient {
 
     return _httpClient.post(Uri.parse(req.url),
         headers: mergedHeaders,
-        body: (req is PostRequest) ? req.body : {},
+        body: (req is PostRequest) ? utf8.encode(jsonEncode(req.body)) : {},
         encoding: Encoding.getByName("utf-8"));
   }
 
