@@ -18,7 +18,7 @@ class CreateChatCommand extends ApiCommand {
       : super('im.chat.add');
 
   @override
-  String get getQuery => apiName;
+  String get getQuery => 'rest/$apiName';
 
   @override
   Map<String, dynamic> get getParams {

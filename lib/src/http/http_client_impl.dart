@@ -10,7 +10,10 @@ class HttpClientImpl extends HttpClient {
   late Map<String, String> defaultHeaders;
   late Map<String, String> defaultCookies;
 
-  HttpClientImpl({this.defaultHeaders = const {}, this.defaultCookies = const {}}) {
+  HttpClientImpl(
+      {this.defaultHeaders = const {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }, this.defaultCookies = const {}}) {
     _httpClient = Client();
   }
 
@@ -51,9 +54,16 @@ class HttpClientImpl extends HttpClient {
       ...{'Cookie': stringifyCookies(mergedCookies)}
     };
 
+    print('[Http] Request: ${req.url}\n'
+        'Headers: $mergedHeaders\n'
+        'Body: ${(req is PostRequest) ? req.body : {}}\n'
+        '====================');
+
     return _httpClient.post(Uri.parse(req.url),
         headers: mergedHeaders,
-        body: (req is PostRequest) ? utf8.encode(jsonEncode(req.body)) : {},
+        body: (req is PostRequest)
+            ? req.body
+            : null,
         encoding: Encoding.getByName("utf-8"));
   }
 

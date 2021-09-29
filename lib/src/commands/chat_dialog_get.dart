@@ -12,6 +12,6 @@ class DialogGetCommand extends ApiCommand {
 
   @override
   String get getQuery =>
-      '$apiName?'
+      'rest/$apiName?'
           '${getParams.entries.map((e) => '${e.key}=${e.value}').join('&')}';
 }

@@ -10,7 +10,7 @@ class RecentListCommand extends ApiCommand {
   @override
   String get getQuery {
     final params = getParams;
-    return '$apiName${params.isNotEmpty ? '?' : ''}'
+    return 'rest/$apiName${params.isNotEmpty ? '?' : ''}'
         '${params.entries.map((e) => '${e.key}:${e.value}').join('&')}';
   }
 

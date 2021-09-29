@@ -20,5 +20,5 @@ class SendMessageCommand extends ApiCommand {
 
   @override
   String get getQuery =>
-      '$apiName?${getParams.entries.map((e) => '${e.key}=${e.value}').join('&')}';
+      'rest/$apiName?${getParams.entries.map((e) => '${e.key}=${e.value}').join('&')}';
 }

@@ -7,18 +7,21 @@ import 'user/user_client.dart';
 
 class BitrixClient {
   late final String baseUrl;
-  final ApiConfigurations apiConfigurations;
   final HttpClient httpClient;
+  String? _sessionId;
 
   // features client
   late final AuthClient authClient;
   late final ChatClient chatClient;
   late final UserClient userClient;
 
-  BitrixClient(String baseUrl, this.apiConfigurations,
+  BitrixClient(String baseUrl,
       {Map<String, String> headers = const {},
-      Map<String, String> cookies = const {}})
+      Map<String, String> cookies = const {},
+      String? sessionId
+      })
       : httpClient = HttpClientImpl(defaultHeaders: headers, defaultCookies: cookies) {
+    _sessionId = sessionId;
 
     if (!baseUrl.endsWith('/')) {
       this.baseUrl = baseUrl;
@@ -35,4 +38,10 @@ class BitrixClient {
     chatClient = ChatClientImpl(this);
     userClient = UserClientImpl(this);
   }
+
+  void setSessionId(String sessionId) {
+    _sessionId = sessionId;
+  }
+
+  String? get sessionId => _sessionId;
 }

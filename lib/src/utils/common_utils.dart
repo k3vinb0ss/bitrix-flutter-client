@@ -6,6 +6,7 @@ String stringifyCookies(Map<String, String> cookies) =>
 
 List<Cookie> cookieFromSetCookieHeaders(String setCookieStr) {
   final exp = RegExp(r'(?<=)(,)(?=[^;]+?=)');
+  // r',(?=[^ ])'
   final cookies = setCookieStr.split(exp);
 
   return cookies.map((e) => Cookie.fromSetCookieValue(e)).toList();
